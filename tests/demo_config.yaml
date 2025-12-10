@@ -7,13 +7,13 @@
 domain:
   x_max: 100.0
   y_max: 100.0
-  nx: 100         # Number of grid points in X direction
-  ny: 100         # Number of grid points in Y direction
+  nx: 25         # Number of grid points in X direction
+  ny: 25         # Number of grid points in Y direction
 
 # 2. SYNTHETIC DATA GENERATOR (The "Ground Truth")
 # Parameters to generate the random field we will pretend to measure.
 simulation:
-  model_type: "Gaussian"   # Options: Gaussian, Spherical, Exponential
+  model_type: "gaussian"   # Options: Gaussian, Spherical, Exponential
   variance: 1.0            # The sill (variance of the field)
   length_scale: 20.0       # The range (correlation length)
   seed: 12345              # Fixed seed for reproducibility
@@ -29,7 +29,7 @@ sampling:
 kriging:
   # If 'null' or commented out, the toolkit will AUTO-OPTIMIZE.
   # If set (e.g., "Gaussian"), it forces that model.
-  variogram_model: null 
+  variogram_model: gaussian 
   
   # Manual parameters (only used if variogram_model is set)
   # anisotropy_angle: 0.0
