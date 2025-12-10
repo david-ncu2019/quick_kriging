@@ -9,7 +9,13 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 src_path = os.path.join(current_dir, '..', 'src')
 sys.path.append(src_path)
 
-from geostat_toolkit import generate_synthetic_field, run_kriging, save_to_vtk
+from geostat_toolkit import (
+    generate_synthetic_field, 
+    run_kriging, 
+    save_to_vtk, 
+    save_grid_to_csv, 
+    save_samples_to_csv
+)
 
 def load_config(config_path):
     with open(config_path, 'r') as file:
@@ -34,7 +40,7 @@ def main():
     # 3. Sample
     print("Sampling...")
     rng = np.random.default_rng(cfg['sampling']['seed'])
-    # Sample unique points to avoid singular matrix
+    # Sample unique points
     flat_idx = rng.choice(dom['nx']*dom['ny'], size=cfg['sampling']['n_samples'], replace=False)
     idx_y, idx_x = np.divmod(flat_idx, dom['nx'])
     
@@ -55,12 +61,30 @@ def main():
     out_dir = cfg['output']['folder']
     os.makedirs(out_dir, exist_ok=True)
     
-    print("Exporting VTK...")
+    print("Exporting Results...")
+    
+    # A. VTK Export (ParaView)
     save_to_vtk(
         os.path.join(out_dir, cfg['output']['vtk_filename']),
         {"Prediction": pred, "Variance": var, "GroundTruth": truth},
         x, y
     )
+    
+    # B. CSV Export (Results Grid)
+    grid_csv_path = os.path.join(out_dir, "results_grid") # extension added automatically
+    save_grid_to_csv(
+        grid_csv_path,
+        {
+            "Ground_Truth": truth,
+            "Prediction": pred,
+            "Kriging_Variance": var
+        },
+        x, y
+    )
+    
+    # C. CSV Export (Samples)
+    samples_csv_path = os.path.join(out_dir, "samples")
+    save_samples_to_csv(samples_csv_path, sx, sy, s_vals)
     
     # 6. Plot
     print("Plotting...")

@@ -7,8 +7,8 @@
 domain:
   x_max: 100.0
   y_max: 100.0
-  nx: 25         # Number of grid points in X direction
-  ny: 25         # Number of grid points in Y direction
+  nx: 51         # Number of grid points in X direction
+  ny: 51         # Number of grid points in Y direction
 
 # 2. SYNTHETIC DATA GENERATOR (The "Ground Truth")
 # Parameters to generate the random field we will pretend to measure.
@@ -21,8 +21,8 @@ simulation:
 # 3. SAMPLING STRATEGY
 # How we extract "Observed Data" from the Ground Truth.
 sampling:
-  n_samples: 50            # Number of random points to sample
-  seed: 99                 # Seed for random coordinate selection
+  n_samples: 100            # Number of random points to sample
+  seed: 20                 # Seed for random coordinate selection
 
 # 4. KRIGING ANALYSIS
 # Parameters for the interpolation process.
@@ -32,7 +32,7 @@ kriging:
   variogram_model: gaussian 
   
   # Manual parameters (only used if variogram_model is set)
-  # anisotropy_angle: 0.0
+  anisotropy_angle: 30
 
 # 5. EXPORT SETTINGS
 # Where to save the results.
