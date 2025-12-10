@@ -1,0 +1,42 @@
+# ------------------------------------------------------------------
+# CONFIGURATION FOR GEOSTAT DEMO
+# ------------------------------------------------------------------
+
+# 1. DOMAIN SETTINGS
+# Defines the 2D area and resolution for the synthetic field and prediction.
+domain:
+  x_max: 100.0
+  y_max: 100.0
+  nx: 25         # Number of grid points in X direction
+  ny: 25         # Number of grid points in Y direction
+
+# 2. SYNTHETIC DATA GENERATOR (The "Ground Truth")
+# Parameters to generate the random field we will pretend to measure.
+simulation:
+  model_type: "gaussian"   # Options: gaussian, spherical, exponential
+  variance: 1.0            # The sill (variance of the field)
+  length_scale: 20.0       # The range (correlation length)
+  seed: 12345              # Fixed seed for reproducibility
+
+# 3. SAMPLING STRATEGY
+# How we extract "Observed Data" from the Ground Truth.
+sampling:
+  n_samples: 50            # Number of random points to sample
+  seed: 99                 # Seed for random coordinate selection
+
+# 4. KRIGING ANALYSIS
+# Parameters for the interpolation process.
+kriging:
+  # If 'null' or commented out, the toolkit will AUTO-OPTIMIZE.
+  # If set (e.g., "gaussian"), it forces that model.
+  variogram_model: gaussian 
+  
+  # Manual parameters (only used if variogram_model is set)
+  anisotropy_angle: 0.0
+
+# 5. EXPORT SETTINGS
+# Where to save the results.
+output:
+  folder: "demo_results"
+  vtk_filename: "kriging_surface"   # Will become .vtr
+  plot_filename: "2d_comparison.png"
